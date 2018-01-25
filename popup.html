@@ -1,0 +1,31 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="js/vendor/faker.min.js"></script>
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+    -->
+  </head>
+
+  <body>
+    <h4>Formbot Automatic Form Filler</h4>
+    <div id="formbot">
+        <button class="formbot__button js-fill">Fill</button>
+        <button class="formbot__button formbot__button--secondary js-clear">Clear</button>
+        <div>Result: <span class="formbot__result"></span></div>
+    </div>
+    <script src="js/formbot.js"></script>
+    <script src="js/popup.js"></script>
+  </body>
+</html>

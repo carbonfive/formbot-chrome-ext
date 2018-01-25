@@ -1,0 +1,54 @@
+#formbot {
+  min-width: 200px;
+
+  .loading-indicator {
+    display: none;
+    .spinner-waiting {
+        display: block;
+        position: absolute;
+        background-color: #fafafa;
+        width: 800px;
+        height: 800px;
+        top: 200px;
+        margin: auto;
+    }
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formbot__button {
+    appearance: none;
+    outline: none;
+    background-color: #0099cc;
+    border: solid 1px #008ab8;
+    border-radius: 0;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    font-smoothing: antialiased;
+    line-height: 1;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: all ease-in;
+    transition-property: background-color, border-color, color;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+        background-color: #007aa3;
+        border: solid 1px #007aa3;
+        color: $white;
+    }
+}
+
+.formbot__button--secondary {
+    background-color: #ffffff;
+    color: #008ab8;
+}
