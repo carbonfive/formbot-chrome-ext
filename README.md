@@ -1,4 +1,4 @@
-#  !["formbot logo"](https://github.com/privsecx/formbot-chrome-ext/blob/master/images/icon-128.png) formbot
+#  !["formbot logo"](https://github.com/carbonfive/formbot-chrome-ext/blob/master/images/icon-128.png) formbot
 
 ## A Chrome extension
 
@@ -10,6 +10,10 @@ with jQuery.
 It tries to make smart, but not too smart, guesses about what each
 field is for. It fills in with a default string if it can't.
 
+This extension was developed for and in collaboration with
+[SharesPost](http://www.sharespost.com),
+and is made available to the open source community with their permission.
+
 ### How to use it
 Right now it's not on the Chrome Web Store, however you can git clone or download
 a .zip file and unpack it.
@@ -20,8 +24,8 @@ a .zip file and unpack it.
 1. Click `Load unpacked extension...`
 1. Use the file browser to navigate to the directory where the extension
 has been unpacked.
-1. Click `Select` or `OK` or whatever.
-1. The little formbot robot should appear in your toolbar, and also at
+1. Click `Select` or `OK`
+1. The Formbot icon should appear in your toolbar, and also at
 the top of your list of extensions.
 
 ### Check boxes and radio buttons
@@ -32,4 +36,4 @@ It does the same thing with radio buttons.
 
 ### Passwords
 The password is "123heyheyitsthemonkees", which may or may not fit your app's
-password requirements. Maybe this should be an option or something.
+password requirements.
