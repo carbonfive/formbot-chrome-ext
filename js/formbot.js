@@ -1,30 +1,21 @@
 // See https://github.com/marak/faker.js/
 
 var Formbot = function () {
-    var onMessage = function(request, sender, sendResponse) {
-        console.log(sender.tab ?
-            "from a content script:" + sender.tab.url :
-            "from the extension");
 
+    var defaultInputText, defaultTextAreaTextStyle, radioButtonGroupSelector;
+
+    var onMessage = function(request, sender, sendResponse) {
         if (request.action === "fill") {
             sendResponse({result: "Filled"});
             Formbot.fill();
         } else if (request.action === "clear") {
             sendResponse({result: "Cleared"});
             Formbot.clear();
-            console.log("there")
         }
     };
 
     var fill = function () {
-        var el = $("form");
-        el.find(".radio-group").each(function () {
-            _doRadio(this);
-        });
-        el.find(".checkbox-group").each(function () {
-            _doCheckbox(this);
-        });
-        _fillWithCardInfo();
+        chrome.storage.sync.get(["defaultInputText","defaultTextAreaTextStyle","radioButtonGroupSelector"], _setDefaultsAndFill);
     };
 
     var clear = function () {
@@ -38,11 +29,14 @@ var Formbot = function () {
         var el = $("form");
         _doDates(el);
         _doText(el);
+        _doTextarea(el);
         _doEmail(el);
         _doNumber(el);
         _doPassword(el);
         _doSelects(el);
     };
+
+
 
     var _randomInteger = function(min, max) {
       return Math.round(Math.random() * (max - min) + min);
@@ -50,7 +44,7 @@ var Formbot = function () {
 
     var _doText = function (el) {
         const cardData = faker.helpers.createCard();
-        $(el).find("input[type='text']").each(function () {
+        $(el).find("input[type='text']:visible").each(function () {
             var name_attr = $(this).attr("name");
             var names = cardData.name.split(" ");
             var firstName = names[0];
@@ -94,7 +88,7 @@ var Formbot = function () {
 
     var _doEmail= function (el) {
         const email = faker.internet.email();
-        $(el).find("input[type=email],input[name*=email]").val(email.replace(".com",".example.com"));
+        $(el).find("input[name*=email]:visible").val(email.replace(".com",".example.com"));
     };
 
     var _doDates= function (el) {
@@ -112,7 +106,7 @@ var Formbot = function () {
     };
 
     var _doRadio= function (el) {
-        const $radios = $(el).find("input:radio");
+        const $radios = $(el).find("input:radio:visible");
 
         // don't override if there is already a selection
         const unChecked = $(el).find("input:radio:checked").length === 0;
@@ -124,7 +118,7 @@ var Formbot = function () {
     };
 
     var _doCheckbox= function (el) {
-        const $checkboxes = $(el).find("input:checkbox");
+        const $checkboxes = $(el).find("input:checkbox:visible");
 
         // don't override if there is already a selection
         var unChecked = $(el).find("input:checkbox:checked").length === 0;
@@ -136,7 +130,7 @@ var Formbot = function () {
     };
 
     var _doNumber= function(el) {
-      const $numbers = $(el).find("input[type=number]");
+      const $numbers = $(el).find("input[type=number]:visible");
       $numbers.each(function() {
         num = Math.floor(Math.random()*10);
         $(this).val(num);
@@ -153,12 +147,18 @@ var Formbot = function () {
     };
 
     var _doPassword = function(el) {
-        const $passwords = $(el).find("input[type=password]");
+        const $passwords = $(el).find("input[type=password]:visible");
         $passwords.val("123heyheyitsthemonkees");
     };
 
+    var _doTextarea = function(el) {
+      const $textareas = $(el).find("textarea");
+      const loremText = faker.lorem.paragraph();
+      $textareas.val(loremText);
+    }
+
     var _clearText= function (el) {
-        $(el).find("input[type=text],input[type=email],input[type=date]").val("")
+        $(el).find("input[type=text],input[type=email],input[type=date],textarea").val("")
     };
 
     var _clearRadiosAndCheckboxes= function (el) {
@@ -168,16 +168,33 @@ var Formbot = function () {
     };
 
     var _randomBirthDate= function () {
-        var year = Math.floor(80 * Math.random()) + 18;
-        var month = Math.floor(11 * Math.random()) + 1;
-        var day = Math.floor(30 * Math.random()) + 1;
+        const year = Math.floor(80 * Math.random()) + 18;
+        const month = Math.floor(11 * Math.random()) + 1;
+        const day = Math.floor(30 * Math.random()) + 1;
 
-        var date = new Date(year, month, day);
+        const date = new Date(year, month, day);
         return date.toISOString().slice(0, 10);
     };
 
     var _selectOne = function ($inputs) {
         return Math.floor($inputs.length * Math.random());
+    };
+
+    var _setDefaultsAndFill = function(chromeSyncItems) {
+        defaultTextAreaTextStyle = chromeSyncItems.defaultTextAreaTextStyle;
+        defaultInputText = chromeSyncItems.defaultInputText;
+        radioButtonGroupSelector = chromeSyncItems.radioButtonGroupSelector;
+        console.log("default Input Text: ", defaultInputText);
+
+        var el = $("form");
+        el.find(".radio-group:visible").each(function () {
+          _doRadio(this);
+        });
+        el.find(".checkbox-group:visible").each(function () {
+          _doCheckbox(this);
+        });
+        _fillWithCardInfo();
+
     };
 
     return {

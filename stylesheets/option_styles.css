@@ -1,0 +1,16 @@
+body {
+    padding: 11px;
+    color: #008ab8;
+}
+section {
+    margin-bottom: 12px;
+    min-height: 16px;
+}
+
+#status {
+    transition: all 1s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
