@@ -36,8 +36,6 @@ var Formbot = function () {
         _doSelects(el);
     };
 
-
-
     var _randomInteger = function(min, max) {
       return Math.round(Math.random() * (max - min) + min);
     };
@@ -45,39 +43,40 @@ var Formbot = function () {
     var _doText = function (el) {
         const cardData = faker.helpers.createCard();
         $(el).find("input[type='text']:visible").each(function () {
-            var name_attr = $(this).attr("name");
-            var names = cardData.name.split(" ");
-            var firstName = names[0];
-            var lastName = names[1];
+            let name_attr = $(this).attr("name");
+
+            let names = cardData.name.split(" ");
+            let firstName = names[0];
+            let lastName = names[1];
             if (name_attr !== undefined) {
-                if (name_attr.match(/name/)) {
-                  if (name_attr.match(/first_name/)) {
+                if (name_attr.match(/name/i)) {
+                  if (name_attr.match(/first.?name/i)) {
                     $(this).val(firstName)
-                  } else if (name_attr.match(/last_name/)) {
+                  } else if (name_attr.match(/last.?name/i)) {
                     $(this).val(lastName)
-                  } else if (name_attr.match(/company/)) {
+                  } else if (name_attr.match(/company/i)) {
                     $(this).val(cardData.company.name)
                   } else {
                     $(this).val(cardData.name)
                   }
-                } else if (name_attr.match(/address/)) {
+                } else if (name_attr.match(/address/i)) {
                     $(this).val(cardData.address.streetB);
-                } else if (name_attr.match(/city/)) {
+                } else if (name_attr.match(/city/i)) {
                     $(this).val(cardData.address.city)
-                } else if (name_attr.match(/state|identification_origin/)) {
+                } else if (name_attr.match(/state|identification.?origin/i)) {
                   $(this).val(cardData.address.state)
-                } else if (name_attr.match(/zip/)) {
+                } else if (name_attr.match(/zip/i)) {
                   $(this).val(cardData.address.zipcode);
-                } else if (name_attr.match(/country/)) {
+                } else if (name_attr.match(/country/i)) {
                   $(this).val("USA");
-                } else if (name_attr.match(/phone/)) {
+                } else if (name_attr.match(/phone/i)) {
                   $(this).val(cardData.phone);
-                } else if (name_attr.match(/ssn|social.security.number|tax_id/)) {
+                } else if (name_attr.match(/ssn|social.security.number|tax.?id/i)) {
                   var randomLastFour = _randomInteger(1000, 9999).toString();
                   $(this).val("666-38-" + randomLastFour);
-                } else if (name_attr.match(/number/)) {
+                } else if (name_attr.match(/number/i)) {
                   $(this).val("10101010101");
-                } else if (name_attr.match(/income/)) {
+                } else if (name_attr.match(/income/i)) {
                   $(this).val(Math.floor(1000000 * Math.random()))
                 } else {
                   $(this).val(defaultInputText)
@@ -186,7 +185,6 @@ var Formbot = function () {
         defaultTextAreaTextStyle = chromeSyncItems.defaultTextAreaTextStyle;
         defaultInputText = chromeSyncItems.defaultInputText;
         radioButtonGroupSelector = chromeSyncItems.radioButtonGroupSelector;
-        console.log("default Input Text: ", defaultInputText);
 
         var el = $("form");
         el.find(".radio-group:visible").each(function () {
