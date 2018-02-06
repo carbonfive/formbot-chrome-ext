@@ -80,7 +80,7 @@ var Formbot = function () {
                 } else if (name_attr.match(/income/)) {
                   $(this).val(Math.floor(1000000 * Math.random()))
                 } else {
-                  $(this).val("FUS RO DAH")
+                  $(this).val(defaultInputText)
                 }
             }
         })
@@ -106,15 +106,17 @@ var Formbot = function () {
     };
 
     var _doRadio= function (el) {
-        const $radios = $(el).find("input:radio:visible");
+      $(el).find(radioButtonGroupSelector + ":visible").each(function(index, childEl) {
+        const $radios = $(childEl).find("input:radio:visible");
 
         // don't override if there is already a selection
-        const unChecked = $(el).find("input:radio:checked").length === 0;
+        const unChecked = $(childEl).find("input:radio:checked").length === 0;
 
         if ($radios.length && unChecked) {
-            const selection = _selectOne($radios);
-            $radios[selection].checked = true
+          const selection = _selectOne($radios);
+          $radios[selection].checked = true
         }
+      });
     };
 
     var _doCheckbox= function (el) {

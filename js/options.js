@@ -10,7 +10,7 @@ const DEFAULT_TEXTAREA_STYLE = 'ipsum';
 
 const DEFAULT_OPTIONS = {
     radioButtonGroupSelector: DEFAULT_RBG_SELECTOR,
-      defaultInputText: DEFAULT_PLACEHOLDER,
+    defaultInputText: DEFAULT_PLACEHOLDER,
     defaultTextAreaTextStyle: DEFAULT_TEXTAREA_STYLE
 };
 

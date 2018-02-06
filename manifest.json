@@ -23,6 +23,7 @@
 
   },
   "permissions": [ "activeTab",
+                    "debugger",
                     "storage",
                     "http://*/*",
                     "https://*/*" ],
