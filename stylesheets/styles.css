@@ -1,0 +1,44 @@
+#formbot {
+    min-width: 200px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.formbot__button {
+    margin-right: 12px;
+    outline: none;
+    background-color: #0099cc;
+    border: solid 1px #008ab8;
+    border-radius: 0;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: all ease-in;
+    transition-property: background-color, border-color, color;
+    white-space: nowrap;
+}
+
+.formbot__button:hover {
+    background-color: #007aa3;
+    border: solid 1px #007aa3;
+    color: #ffffff;
+}
+
+.formbot__button--secondary {
+    background-color: #ffffff;
+    color: #008ab8;
+}
+
+.formbot__button--secondary:hover {
+    background-color: #0099cc;
+    color: #ffffff;
+}
+
+.formbot__result {
+    line-height: 32px;
+}

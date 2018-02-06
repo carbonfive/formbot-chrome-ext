@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formbot Options</title>
+    <link rel="stylesheet" href="stylesheets/option_styles.css" />
+</head>
+<body>
+    <section>
+        <label for="radio-button-group">
+            <p><strong>Radio button group selector:</strong> Formbot can make better choices if you tell it the class you use to group radio buttons.</p>
+            <input id="radio-button-group" type="text">
+        </label>
+    </section>
+    <section>
+        <label for="default-input-text">
+            <p><strong>Placeholder text for text inputs</strong></p>
+            <input id="default-input-text">
+        </label>
+    </section>
+    <section>
+        <label for="default-textarea-text">
+            <p><strong>Placeholder text style for textareas</strong></p>
+        </label>
+        <select id="default-textarea-text" cols="60" rows="10">
+            <option value="ipsum">Lorem ipsum</option>
+        </select>
+    </section>
+
+    <section id="status"></section>
+    <button id="save">Save my changes</button>
+    <button id="reset">Reset to defaults</button>
+
+    <script src="js/options.js"></script>
+</body>
+</html>
