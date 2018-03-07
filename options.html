@@ -7,9 +7,9 @@
 </head>
 <body>
     <section>
-        <label for="radio-button-group">
-            <p><strong>Radio button group selector:</strong> Formbot can make better choices if you tell it the class you use to group radio buttons.</p>
-            <input id="radio-button-group" type="text">
+        <label for="form-selector">
+            <p><strong>CSS Form selector for the form to fill out</strong></p>
+            <input id="form-selector">
         </label>
     </section>
     <section>
@@ -19,12 +19,24 @@
         </label>
     </section>
     <section>
+        <label for="default-password-text">
+            <p><strong>Default password</strong></p>
+        </label>
+        <input id="default-password-text" cols="60" rows="10">
+    </section>
+    <section>
         <label for="default-textarea-text">
             <p><strong>Placeholder text style for textareas</strong></p>
         </label>
         <select id="default-textarea-text" cols="60" rows="10">
             <option value="ipsum">Lorem ipsum</option>
         </select>
+    </section>
+    <section>
+        <label for="radio-button-group">
+            <p><strong>Radio button group selector:</strong> Formbot can make better choices if you tell it the class you use to group radio buttons.</p>
+            <input id="radio-button-group" type="text">
+        </label>
     </section>
 
     <section id="status"></section>

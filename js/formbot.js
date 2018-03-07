@@ -1,6 +1,6 @@
 // See https://github.com/marak/faker.js/
 
-var Formbot = function () {
+var Formbot = () => {
 
     var defaultInputText, defaultTextAreaTextStyle, radioButtonGroupSelector;
 
@@ -19,14 +19,15 @@ var Formbot = function () {
     };
 
     var clear = function () {
-        var el = $("form");
+        var el = jQuery("form");
         _clearText(el);
         _clearRadiosAndCheckboxes(el);
+        _clearSelects(el);
     };
 
 
     var _fillWithCardInfo= function (data) {
-        var el = $("form");
+        var el = jQuery("form");
         _doDates(el);
         _doText(el);
         _doTextarea(el);
@@ -42,8 +43,8 @@ var Formbot = function () {
 
     var _doText = function (el) {
         const cardData = faker.helpers.createCard();
-        $(el).find("input[type='text']:visible").each(function () {
-            let name_attr = $(this).attr("name");
+        jQuery(el).find("input[type='text']:visible").each(function () {
+            let name_attr = jQuery(this).attr("name");
 
             let names = cardData.name.split(" ");
             let firstName = names[0];
@@ -51,35 +52,35 @@ var Formbot = function () {
             if (name_attr !== undefined) {
                 if (name_attr.match(/name/i)) {
                   if (name_attr.match(/first.?name/i)) {
-                    $(this).val(firstName)
+                    jQuery(this).val(firstName)
                   } else if (name_attr.match(/last.?name/i)) {
-                    $(this).val(lastName)
+                    jQuery(this).val(lastName)
                   } else if (name_attr.match(/company/i)) {
-                    $(this).val(cardData.company.name)
+                    jQuery(this).val(cardData.company.name)
                   } else {
-                    $(this).val(cardData.name)
+                    jQuery(this).val(cardData.name)
                   }
                 } else if (name_attr.match(/address/i)) {
-                    $(this).val(cardData.address.streetB);
+                    jQuery(this).val(cardData.address.streetB);
                 } else if (name_attr.match(/city/i)) {
-                    $(this).val(cardData.address.city)
+                    jQuery(this).val(cardData.address.city)
                 } else if (name_attr.match(/state|identification.?origin/i)) {
-                  $(this).val(cardData.address.state)
+                  jQuery(this).val(cardData.address.state)
                 } else if (name_attr.match(/zip/i)) {
-                  $(this).val(cardData.address.zipcode);
+                  jQuery(this).val(cardData.address.zipcode);
                 } else if (name_attr.match(/country/i)) {
-                  $(this).val("USA");
+                  jQuery(this).val("USA");
                 } else if (name_attr.match(/phone/i)) {
-                  $(this).val(cardData.phone);
+                  jQuery(this).val(cardData.phone);
                 } else if (name_attr.match(/ssn|social.security.number|tax.?id/i)) {
                   var randomLastFour = _randomInteger(1000, 9999).toString();
-                  $(this).val("666-38-" + randomLastFour);
+                  jQuery(this).val("666-38-" + randomLastFour);
                 } else if (name_attr.match(/number/i)) {
-                  $(this).val("10101010101");
+                  jQuery(this).val("10101010101");
                 } else if (name_attr.match(/income/i)) {
-                  $(this).val(Math.floor(1000000 * Math.random()))
+                  jQuery(this).val(Math.floor(1000000 * Math.random()))
                 } else {
-                  $(this).val(defaultInputText)
+                  jQuery(this).val(defaultInputText)
                 }
             }
         })
@@ -87,42 +88,54 @@ var Formbot = function () {
 
     var _doEmail= function (el) {
         const email = faker.internet.email();
-        $(el).find("input[name*=email]:visible").val(email.replace(".com",".example.com"));
+        jQuery(el).find("input[name*=email]:visible").val(email.replace(".com",".example.com"));
     };
 
     var _doDates= function (el) {
-        $(el).find("input[type=date]").each(function () {
-            var name_attr = $(this).attr("name");
+        jQuery(el).find("input[type=date]").each(function () {
+            var name_attr = jQuery(this).attr("name");
             if (name_attr.match(/birth|dob/)) {
                 var dob = _randomBirthDate();
-                $(this).val(dob);
+                jQuery(this).val(dob);
             } else if (name_attr.match(/expir/)) {
-                $(this).val("2022-12-31")
+                jQuery(this).val("2022-12-31")
             } else {
-                $(this).val("2017-10-31")
+                jQuery(this).val("2017-10-31")
             }
         })
     };
 
-    var _doRadio= function (el) {
-      $(el).find(radioButtonGroupSelector + ":visible").each(function(index, childEl) {
-        const $radios = $(childEl).find("input:radio:visible");
 
-        // don't override if there is already a selection
-        const unChecked = $(childEl).find("input:radio:checked").length === 0;
-
-        if ($radios.length && unChecked) {
-          const selection = _selectOne($radios);
-          $radios[selection].checked = true
-        }
+    var _doRadios = (el) => {
+      let names = jQuery.map(jQuery(el).find("input[type=radio]"), (el) => el.getAttribute("name"));
+      let unique_names = _unique(names);
+      debugger;
+      unique_names.forEach( (name) => {
+        jQuery(el).find(`input[name=${name}]:visible`).each( (_index, radioButtons) => {
+          _doRadio(radioButtons);
+        })
       });
     };
 
-    var _doCheckbox= function (el) {
-        const $checkboxes = $(el).find("input:checkbox:visible");
+    var _doRadio = (radioButtons) => {
+      const $radioButtons = jQuery(radioButtons)
+      const checked = $radioButtons.find("input[type=radio]:checked").length !== 0;
+      // don't override if there is already a selection
+      if (checked) { return; }
+
+      const selection = _selectOne($radioButtons);
+      $radioButtons[selection].checked = true
+    };
+
+    var _doCheckboxes = (el) => {
+
+    };
+
+    var _doCheckbox = (el)  => {
+        const $checkboxes = jQuery(el).find("input:checkbox:visible");
 
         // don't override if there is already a selection
-        var unChecked = $(el).find("input:checkbox:checked").length === 0;
+        var unChecked = jQuery(el).find("input:checkbox:checked").length === 0;
 
         if ($checkboxes.length && unChecked) {
             var selection = _selectOne($checkboxes);
@@ -131,10 +144,10 @@ var Formbot = function () {
     };
 
     var _doNumber= function(el) {
-      const $numbers = $(el).find("input[type=number]:visible");
+      const $numbers = jQuery(el).find("input[type=number]:visible");
       $numbers.each(function() {
         num = Math.floor(Math.random()*10);
-        $(this).val(num);
+        jQuery(this).val(num);
       })
     };
 
@@ -148,24 +161,28 @@ var Formbot = function () {
     };
 
     var _doPassword = function(el) {
-        const $passwords = $(el).find("input[type=password]:visible");
+        const $passwords = jQuery(el).find("input[type=password]:visible");
         $passwords.val("123heyheyitsthemonkees");
     };
 
     var _doTextarea = function(el) {
-      const $textareas = $(el).find("textarea");
+      const $textareas = jQuery(el).find("textarea");
       const loremText = faker.lorem.paragraph();
       $textareas.val(loremText);
     }
 
     var _clearText= function (el) {
-        $(el).find("input[type=text],input[type=email],input[type=date],textarea").val("")
+        jQuery(el).find("input[type=text],input[type=email],input[type=date],textarea").val("")
     };
 
     var _clearRadiosAndCheckboxes= function (el) {
-        $(el).find("input:radio,input:checkbox").each(function () {
+        jQuery(el).find("input[type=radio],input:checkbox").each(function () {
             this.checked = false;
         })
+    };
+
+    var _clearSelects = function (el) {
+        jQuery(el).find("option").each(function () { this.selected = false; })
     };
 
     var _randomBirthDate= function () {
@@ -182,19 +199,29 @@ var Formbot = function () {
     };
 
     var _setDefaultsAndFill = function(chromeSyncItems) {
-        defaultTextAreaTextStyle = chromeSyncItems.defaultTextAreaTextStyle;
+
+      defaultTextAreaTextStyle = chromeSyncItems.defaultTextAreaTextStyle;
         defaultInputText = chromeSyncItems.defaultInputText;
         radioButtonGroupSelector = chromeSyncItems.radioButtonGroupSelector;
 
-        var el = $("form");
-        el.find(".radio-group:visible").each(function () {
-          _doRadio(this);
-        });
+        var el = jQuery("form");
+        _doRadios(el);
         el.find(".checkbox-group:visible").each(function () {
           _doCheckbox(this);
         });
         _fillWithCardInfo();
 
+    };
+
+
+    var _unique = function(fromArray) {
+      unique = [];
+      fromArray.forEach(function(element) {
+        if (!unique.includes(element)){
+          unique.push(element);
+        }
+      });
+      return unique;
     };
 
     return {

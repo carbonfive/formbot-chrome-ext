@@ -14,3 +14,7 @@ section {
 .hidden {
     display: none;
 }
+
+input {
+    width: 200px;
+}
