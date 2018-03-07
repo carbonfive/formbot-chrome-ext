@@ -1,0 +1,22 @@
+{
+  "homepage": "https://github.com/carbonfive/formbot-chrome-ext",
+  "bugs": {
+    "url": "https://github.com/carbonfive/formbot-chrome-ext/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Shannon E. Wells",
+    "email": "shannon@carbonfive.com",
+    "url": "http://www.carbonfive.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carbonfive/formbot-chrome-ext"
+  },
+  "dependencies": {
+    "npm": "^5.7.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.4"
+  }
+}
