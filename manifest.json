@@ -2,16 +2,13 @@
   "manifest_version": 2,
   "name": "Formbot",
   "version": "1.0",
-
   "author": "Shannon E. Wells, Carbon Five",
   "browser_action": {
     "default_icon": "images/icon-16.png",
     "default_popup": "popup.html"
   },
-
   "description": "Automatic form filling with smart-ish test data.",
   "homepage_url": "http://github.com/carbonfive/formbot-chrome-ext",
-
   "icons": {
     "16": "images/icon-16.png",
     "128": "images/icon-128.png"
@@ -20,21 +17,29 @@
   "options_ui": {
     "page": "options.html",
     "chrome_style": true
-
   },
-  "permissions": [ "activeTab",
-                    "debugger",
-                    "storage",
-                    "http://*/*",
-                    "https://*/*" ],
+  "permissions": [
+    "activeTab",
+    "debugger",
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ],
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["js/formbot.js",
-             "js/options.js",
-             "js/vendor/jquery-3.2.1.min.js",
-        "js/vendor/faker.min.js"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "js/formbot.js",
+        "js/options.js",
+        "js/radioButtonSelections.js",
+        "js/vendor/jquery-3.2.1.min.js",
+        "js/vendor/faker.min.js"
+      ],
       "run_at": "document_end",
       "all_frames": true
-    }]
+    }
+  ]
 }

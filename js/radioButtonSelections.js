@@ -11,7 +11,7 @@ var RadioButtonSelections = () => {
   };
 
   var _doRadio = (radioButtons) => {
-    const $radioButtons = jQuery(radioButtons)
+    const $radioButtons = $(radioButtons);
     const checked = $radioButtons.find("input[type=radio]:checked").length !== 0;
     // don't override if there is already a selection
     if (checked) { return; }
@@ -25,4 +25,4 @@ var RadioButtonSelections = () => {
     clear: _clearRadios
   }
 
-}();
+};
