@@ -1,10 +1,10 @@
 // See https://github.com/marak/faker.js/
 
-var Formbot = () => {
+(Formbot = () => {
 
-    var defaultInputText, defaultTextAreaTextStyle, radioButtonGroupSelector;
+    let defaultInputText, defaultTextAreaTextStyle, radioButtonGroupSelector;
 
-    var onMessage = function(request, sender, sendResponse) {
+    let onMessage = function(request, sender, sendResponse) {
         if (request.action === "fill") {
             sendResponse({result: "Filled"});
             Formbot.fill();
@@ -14,20 +14,20 @@ var Formbot = () => {
         }
     };
 
-    var fill = function () {
+    let fill = function () {
         chrome.storage.sync.get(["defaultInputText","defaultTextAreaTextStyle","radioButtonGroupSelector"], _setDefaultsAndFill);
     };
 
-    var clear = function () {
-        var el = jQuery("form");
+    let clear = function () {
+        let el = jQuery("form");
         _clearText(el);
         _clearRadiosAndCheckboxes(el);
         _clearSelects(el);
     };
 
 
-    var _fillWithCardInfo= function (data) {
-        var el = jQuery("form");
+    let _fillWithCardInfo= function (data) {
+        let el = jQuery("form");
         _doDates(el);
         _doText(el);
         _doTextarea(el);
@@ -37,11 +37,11 @@ var Formbot = () => {
         _doSelects(el);
     };
 
-    var _randomInteger = function(min, max) {
+    let _randomInteger = function(min, max) {
       return Math.round(Math.random() * (max - min) + min);
     };
 
-    var _doText = function (el) {
+    let _doText = function (el) {
         const cardData = faker.helpers.createCard();
         jQuery(el).find("input[type='text']:visible").each(function () {
             let name_attr = jQuery(this).attr("name");
@@ -73,29 +73,29 @@ var Formbot = () => {
                 } else if (name_attr.match(/phone/i)) {
                   jQuery(this).val(cardData.phone);
                 } else if (name_attr.match(/ssn|social.security.number|tax.?id/i)) {
-                  var randomLastFour = _randomInteger(1000, 9999).toString();
+                  let randomLastFour = _randomInteger(1000, 9999).toString();
                   jQuery(this).val("666-38-" + randomLastFour);
                 } else if (name_attr.match(/number/i)) {
                   jQuery(this).val("10101010101");
                 } else if (name_attr.match(/income/i)) {
                   jQuery(this).val(Math.floor(1000000 * Math.random()))
                 } else {
-                  jQuery(this).val(defaultInputText)
+                  jQuery(this).val(defaultInputText);
                 }
             }
         })
     };
 
-    var _doEmail= function (el) {
+    let _doEmail= function (el) {
         const email = faker.internet.email();
         jQuery(el).find("input[name*=email]:visible").val(email.replace(".com",".example.com"));
     };
 
-    var _doDates= function (el) {
+    let _doDates= function (el) {
         jQuery(el).find("input[type=date]").each(function () {
-            var name_attr = jQuery(this).attr("name");
+            let name_attr = jQuery(this).attr("name");
             if (name_attr.match(/birth|dob/)) {
-                var dob = _randomBirthDate();
+                let dob = _randomBirthDate();
                 jQuery(this).val(dob);
             } else if (name_attr.match(/expir/)) {
                 jQuery(this).val("2022-12-31")
@@ -106,10 +106,9 @@ var Formbot = () => {
     };
 
 
-    var _doRadios = (el) => {
+    let _doRadios = (el) => {
       let names = jQuery.map(jQuery(el).find("input[type=radio]"), (el) => el.getAttribute("name"));
       let unique_names = _unique(names);
-      debugger;
       unique_names.forEach( (name) => {
         jQuery(el).find(`input[name=${name}]:visible`).each( (_index, radioButtons) => {
           _doRadio(radioButtons);
@@ -117,7 +116,7 @@ var Formbot = () => {
       });
     };
 
-    var _doRadio = (radioButtons) => {
+    let _doRadio = (radioButtons) => {
       const $radioButtons = jQuery(radioButtons)
       const checked = $radioButtons.find("input[type=radio]:checked").length !== 0;
       // don't override if there is already a selection
@@ -127,23 +126,23 @@ var Formbot = () => {
       $radioButtons[selection].checked = true
     };
 
-    var _doCheckboxes = (el) => {
+    let _doCheckboxes = (el) => {
 
     };
 
-    var _doCheckbox = (el)  => {
+    let _doCheckbox = (el)  => {
         const $checkboxes = jQuery(el).find("input:checkbox:visible");
 
         // don't override if there is already a selection
-        var unChecked = jQuery(el).find("input:checkbox:checked").length === 0;
+        let unChecked = jQuery(el).find("input:checkbox:checked").length === 0;
 
         if ($checkboxes.length && unChecked) {
-            var selection = _selectOne($checkboxes);
+            let selection = _selectOne($checkboxes);
             $checkboxes[selection].checked = true
         }
     };
 
-    var _doNumber= function(el) {
+    let _doNumber= function(el) {
       const $numbers = jQuery(el).find("input[type=number]:visible");
       $numbers.each(function() {
         num = Math.floor(Math.random()*10);
@@ -151,7 +150,7 @@ var Formbot = () => {
       })
     };
 
-    var _doSelects = function(el) {
+    let _doSelects = function(el) {
         const $selects = $(el).find("select");
         $selects.each(function(index, select) {
             $opts = $(select).find("option");
@@ -160,32 +159,32 @@ var Formbot = () => {
         });
     };
 
-    var _doPassword = function(el) {
+    let _doPassword = function(el) {
         const $passwords = jQuery(el).find("input[type=password]:visible");
         $passwords.val("123heyheyitsthemonkees");
     };
 
-    var _doTextarea = function(el) {
+    let _doTextarea = function(el) {
       const $textareas = jQuery(el).find("textarea");
       const loremText = faker.lorem.paragraph();
       $textareas.val(loremText);
     }
 
-    var _clearText= function (el) {
+    let _clearText= function (el) {
         jQuery(el).find("input[type=text],input[type=email],input[type=date],textarea").val("")
     };
 
-    var _clearRadiosAndCheckboxes= function (el) {
+    let _clearRadiosAndCheckboxes= function (el) {
         jQuery(el).find("input[type=radio],input:checkbox").each(function () {
             this.checked = false;
         })
     };
 
-    var _clearSelects = function (el) {
+    let _clearSelects = function (el) {
         jQuery(el).find("option").each(function () { this.selected = false; })
     };
 
-    var _randomBirthDate= function () {
+    let _randomBirthDate= function () {
         const year = Math.floor(80 * Math.random()) + 18;
         const month = Math.floor(11 * Math.random()) + 1;
         const day = Math.floor(30 * Math.random()) + 1;
@@ -194,17 +193,17 @@ var Formbot = () => {
         return date.toISOString().slice(0, 10);
     };
 
-    var _selectOne = function ($inputs) {
+    let _selectOne = function ($inputs) {
         return Math.floor($inputs.length * Math.random());
     };
 
-    var _setDefaultsAndFill = function(chromeSyncItems) {
+    let _setDefaultsAndFill = function(chromeSyncItems) {
 
       defaultTextAreaTextStyle = chromeSyncItems.defaultTextAreaTextStyle;
         defaultInputText = chromeSyncItems.defaultInputText;
         radioButtonGroupSelector = chromeSyncItems.radioButtonGroupSelector;
 
-        var el = jQuery("form");
+        let el = jQuery("form");
         _doRadios(el);
         el.find(".checkbox-group:visible").each(function () {
           _doCheckbox(this);
@@ -214,7 +213,7 @@ var Formbot = () => {
     };
 
 
-    var _unique = function(fromArray) {
+    let _unique = function(fromArray) {
       unique = [];
       fromArray.forEach(function(element) {
         if (!unique.includes(element)){
@@ -229,6 +228,6 @@ var Formbot = () => {
         clear: clear,
         onMessage: onMessage
     }
-}();
+})();
 chrome.runtime.onMessage.addListener(Formbot.onMessage);
 

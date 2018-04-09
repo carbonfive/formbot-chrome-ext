@@ -1,13 +1,15 @@
-let chai = require("chai");
-const expect = chai.expect;
+require('./setup');
 
-import multilineParse from "./multiline_fixture_parser";
-require("../js/vendor/jquery-3.2.1.min");
+const multilineParse = require("./multiline_fixture_parser");
+
 require("../js/radioButtonSelections");
 
 describe('Array', () =>  {
+  jsdom();
   describe('some context', () => {
+
     it('works', () => {
+      let div = document.createElement('div');
       let fixture = multilineParse(function() {/*
   <form method="post" action="/" class="test-form">
     <p>
@@ -21,6 +23,8 @@ describe('Array', () =>  {
     <input type="submit" value="Sign up">
   </form>
 */});
+
+
       expect(fixture).not.equal("");
     });
   });
