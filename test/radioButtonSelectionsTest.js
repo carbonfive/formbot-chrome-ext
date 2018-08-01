@@ -1,15 +1,14 @@
 require('./setup');
-
+require("../js/radioButtonSelections");
+const expect = require('chai').expect
+const chai = require("chai")
 const multilineParse = require("./multiline_fixture_parser");
 
-require("../js/radioButtonSelections");
-
 describe('Array', () =>  {
-  jsdom();
+
   describe('some context', () => {
 
     it('works', () => {
-      let div = document.createElement('div');
       let fixture = multilineParse(function() {/*
   <form method="post" action="/" class="test-form">
     <p>
@@ -24,6 +23,7 @@ describe('Array', () =>  {
   </form>
 */});
 
+      let div = document.createElement('div').appendChild(fixture);
 
       expect(fixture).not.equal("");
     });

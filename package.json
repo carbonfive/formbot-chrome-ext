@@ -1,4 +1,5 @@
 {
+  "name": "formbot-chrome-ext",
   "homepage": "https://github.com/carbonfive/formbot-chrome-ext",
   "bugs": {
     "url": "https://github.com/carbonfive/formbot-chrome-ext/issues"
@@ -23,10 +24,12 @@
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "chai": "*",
+    "chai-spies": "*",
     "mocha": "*",
-    "mocha-jsdom": "^1.1.0"
+    "mocha-jsdom": "^2.0.0"
   },
   "moduleDirectories": [
     "./node_modules"
   ]
+
 }
